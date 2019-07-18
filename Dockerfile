@@ -2,7 +2,6 @@ FROM jenkins/jenkins:lts
 
 # if we want to install via apt
 USER root
-#RUN apt-get update && apt-get install -y ruby make more-thing-here
 
 #Install Php
 RUN apt-get update && apt-get install -y ca-certificates apt-transport-https 
@@ -37,20 +36,9 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
 #Install Template
-RUN cd $JENKINS_HOME/jobs
-RUN mkdir php-template
-RUN cd php-template
-RUN wget https://raw.github.com/sebastianbergmann/php-jenkins-template/master/config.xml
-RUN cd ..
-RUN chown -R jenkins:jenkins php-template/
-
-#COPY ./docker-entrypoint.sh /
-#RUN chmod +x ./docker-entrypoint.sh
-#ENTRYPOINT ["/docker-entrypoint.sh"]
+COPY jobs/* $JENKINS_HOME/jobs
+RUN chown -R jenkins:jenkins $JENKINS_HOME/jobs/php-template/
+RUN chown -R jenkins:jenkins $JENKINS_HOME/jobs/laravel-skeleton/
 
 #switch to jenkins to customize
 USER jenkins
-#COPY groovies/executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
-#COPY plugins.txt /usr/share/jenkins/ref/
-#RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
-
