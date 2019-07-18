@@ -1,8 +1,6 @@
-#!/bin/bash
-
-wget http://localhost:8080/jnlpJars/jenkins-cli.jar
-java -jar jenkins-cli.jar -s http://localhost:8080 install-plugin checkstyle cloverphp crap4j \
-			dry htmlpublisher jdepend plot pmd violations warnings xunit
-java -jar jenkins-cli.jar -s http://localhost:8080 safe-restart
-
-exec "$@"
+#!/bin/sh
+echo $JENKINS_HOME/jobs
+while [ -d $JENKINS_HOME/jobs ]; do
+  # sleep 10
+  echo "Still waiting"
+done

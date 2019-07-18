@@ -36,9 +36,10 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
 #Install Template
-COPY jobs/* $JENKINS_HOME/jobs
-RUN chown -R jenkins:jenkins $JENKINS_HOME/jobs/php-template/
-RUN chown -R jenkins:jenkins $JENKINS_HOME/jobs/laravel-skeleton/
+COPY jobs/php-template/ $JENKINS_HOME/ref/jobs/php-template
+COPY jobs/laravel-skeleton/ $JENKINS_HOME/ref/jobs/laravel-skeleton
+RUN chown -Rf jenkins:jenkins $JENKINS_HOME/ref/jobs/php-template/
+RUN chown -Rf jenkins:jenkins $JENKINS_HOME/ref/jobs/laravel-skeleton/
 
 #switch to jenkins to customize
 USER jenkins
